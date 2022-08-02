@@ -1,9 +1,44 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
+
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
+}
+
+model Round {
+  id        Int        @id
+  level     Int
+  duration  Int
+  questions Question[]
+}
+
+model Team {
+  id        Int                @id
+  name      String
+  responses QuestionResponse[]
+}
+
+model Question {
+  id        Int                @id
+  level     Int
+  answer    String
+  number    Int
+  responses QuestionResponse[]
+  Round     Round?             @relation(fields: [roundId], references: [id])
+  roundId   Int?
+}
+
+model QuestionResponse {
+  id         Int      @id
+  skiped     Boolean  @default(false)
+  correct    Boolean  @default(false)
+  attempts   Int      @default(0)
+  team       Team     @relation(fields: [teamId], references: [id])
+  teamId     Int
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
 }
