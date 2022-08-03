@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import Pane from '$lib/Pane.svelte';
+	import Pane from '$lib/layouts/Pane.svelte';
 
 	const countdown = new Date();
 	countdown.setMinutes(countdown.getMinutes() + 40);

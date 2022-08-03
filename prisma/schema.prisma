@@ -10,20 +10,20 @@ datasource db {
 }
 
 model Round {
-  id        Int        @id
+  id        Int        @id @default(autoincrement())
   level     Int
   duration  Int
   questions Question[]
 }
 
 model Team {
-  id        Int                @id
+  id        Int                @id @default(autoincrement())
   name      String
   responses QuestionResponse[]
 }
 
 model Question {
-  id        Int                @id
+  id        Int                @id @default(autoincrement())
   level     Int
   answer    String
   number    Int
@@ -33,7 +33,7 @@ model Question {
 }
 
 model QuestionResponse {
-  id         Int      @id
+  id         Int      @id @default(autoincrement())
   skiped     Boolean  @default(false)
   correct    Boolean  @default(false)
   attempts   Int      @default(0)
