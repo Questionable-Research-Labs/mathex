@@ -1,5 +1,4 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { PrismaClient } from '@prisma/client';
 import { passwordCleared } from '$lib/checks';
 
 export const POST: RequestHandler = async (event) => {

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import TabButton from '$lib/buttons/TabButton.svelte';
+	import TabButton from '$lib/elements/TabButton.svelte';
 
 	export let tabs: string[] = [];
-	let currentTab: number = 0;
+	let currentTab = 0;
 
 	$: console.log(currentTab);
 
@@ -11,14 +11,14 @@
 	}
 </script>
 
-<div class="flex flex-col">
-	<div class="flex row-auto ">
+<div class="flex flex-col bg-blue-900 rounded-xl">
+	<div class="flex row-auto justify-between bg-blue-700 rounded-t-xl">
 		{#each tabs as tab, i}
-			<TabButton on:click={setTab(i)}>{tab}</TabButton>
+			<TabButton on:click={setTab(i)} selected={i == currentTab}>{tab}</TabButton>
 		{/each}
 	</div>
 
-	<div>
+	<div class="p-10">
 		{#if currentTab == 0}
 			<slot name="1" />
 		{:else if currentTab == 1}

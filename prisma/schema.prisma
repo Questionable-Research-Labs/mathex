@@ -10,26 +10,39 @@ datasource db {
 }
 
 model Round {
-  id        Int        @id @default(autoincrement())
-  level     Int
-  duration  Int
-  questions Question[]
+  id         Int          @id @default(autoincrement())
+  level      Int
+  duration   Int
+  questions  Question[]
+  RoundScore RoundScore[]
 }
 
 model Team {
-  id        Int                @id @default(autoincrement())
-  name      String
-  responses QuestionResponse[]
+  id         Int                @id @default(autoincrement())
+  name       String
+  level      Int
+  responses  QuestionResponse[]
+  RoundScore RoundScore[]
+}
+
+model RoundScore {
+  id      Int   @id @default(autoincrement())
+  round   Round @relation(fields: [roundId], references: [id])
+  team    Team  @relation(fields: [teamId], references: [id])
+  roundId Int
+  teamId  Int
+  score   Int   @default(0)
 }
 
 model Question {
-  id        Int                @id @default(autoincrement())
-  level     Int
-  answer    String
-  number    Int
-  responses QuestionResponse[]
-  Round     Round?             @relation(fields: [roundId], references: [id])
-  roundId   Int?
+  id         Int                @id @default(autoincrement())
+  level      Int
+  answer     String
+  number     Int
+  tieBreaker Boolean            @default(false)
+  responses  QuestionResponse[]
+  Round      Round?             @relation(fields: [roundId], references: [id])
+  roundId    Int?
 }
 
 model QuestionResponse {

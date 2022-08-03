@@ -1,6 +1,8 @@
 <script lang="ts">
-	import Pane from './layouts/Pane.svelte';
-	import { password } from './stores';
+	import Pane from '../layouts/Pane.svelte';
+	import { password } from '../stores';
+	import Input from '../elements/Input.svelte';
+	import SubmitButton from '$lib/elements/SubmitButton.svelte';
 
 	let passwordInput = '';
 	let error = false;
@@ -23,16 +25,8 @@
 
 <Pane>
 	<form on:submit|preventDefault={tryLogin} class="flex flex-col justify-center items-center gap-2">
-		<div class="bg-white p-5 rounded-xl drop-shadow-xl">
-			<label for="password">Password</label>
-			<input
-				type="password"
-				id="password"
-				class="rounded-xl border-gray-400 border-2 bg-gray-200 px-3"
-				bind:value={passwordInput}
-			/>
-		</div>
-		<input type="submit" value="Login" class="bg-gray-200 p-3 rounded-xl drop-shadow-xl" />
+		<Input bind:value={passwordInput} type="password" id="password">Password</Input>
+		<SubmitButton value="Login" />
 		{#if error}
 			<span class="text-red-500 text-center">Invalid Password</span>
 		{/if}
