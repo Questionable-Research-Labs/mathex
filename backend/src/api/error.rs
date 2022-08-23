@@ -1,6 +1,7 @@
 use serde::Serialize;
+use utoipa::Component;
 
-#[derive(Serialize)]
+#[derive(Serialize, Component)]
 pub enum ErrorKind {
     InternalServer,
     MissingPassword,
@@ -10,7 +11,7 @@ pub enum ErrorKind {
     Todo,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Component)]
 pub struct Error {
     #[serde(rename = "errorKind")]
     kind: ErrorKind,

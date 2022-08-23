@@ -14,12 +14,18 @@ use serde::{Deserialize, Serialize};
 use serde_json::to_string as to_json;
 use sqlx::PgPool;
 use tracing::log::error;
+use utoipa::Component;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Component)]
 pub struct AddCompetitionRequest {
     level: i32,
 }
 
+#[utoipa::path(
+    responses(
+        (status = 200, description = "List all competitions", body = [Competition])
+    )
+)]
 #[get("/competition")]
 pub async fn get_competitions(pool: web::Data<PgPool>) -> impl Responder {
     match database::get_competitions(pool.as_ref()).await {
@@ -38,6 +44,13 @@ pub async fn get_competitions(pool: web::Data<PgPool>) -> impl Responder {
     }
 }
 
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Added a new competition", body = [Competition]),
+        (status = 401, description = "Insufficient permission to add competition", body = [Error], example = json!(Error::kind(ErrorKind::InvalidPassword))),
+        (status = 401, description = "Password is missing", body = [Error], example = json!(Error::kind(ErrorKind::MissingPassword))),
+    )
+)]
 #[put("/competition")]
 pub async fn add_competition(
     pool: web::Data<PgPool>,

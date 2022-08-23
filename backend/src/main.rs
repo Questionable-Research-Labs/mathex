@@ -1,10 +1,12 @@
 use actix_web::{web, App, HttpServer};
-use api::{competition::*, team::*};
+use api::{competition::*, docs::ApiDocs, team::*};
 use dotenv::dotenv;
 use sqlx::postgres::PgPool;
 use std::env;
 use tracing_actix_web::TracingLogger;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
 mod api;
 
@@ -36,6 +38,10 @@ async fn main() -> anyhow::Result<()> {
             .service(add_team)
             .service(remove_team)
             .service(get_team)
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}")
+                    .url("/api-doc/openapi.json", ApiDocs::openapi()),
+            )
     })
     .bind(("0.0.0.0", 8080))?
     .run()
